@@ -1,16 +1,27 @@
-# This is a sample Python script.
+import kivy
+from kivy.app import App
+from kivy.uix.boxlayout import BoxLayout
+import random
 
-# Press Skift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+kivy.require('1.9.0')
 
+class root(BoxLayout):
+    def __init__(self):
+        super(root, self).__init__()
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+    def process(self):
+        self.text = self.ids.input.text
 
+    def submit(self):
+        number_list = []
+        for i in self.text:
+            number_list.append(i)
+        print(number_list)
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+class Gui(App):
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    def build(self):
+        return root()
+
+gui = Gui()
+gui.run()
