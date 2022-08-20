@@ -7,6 +7,7 @@ from kivy.uix.gridlayout import GridLayout
 from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
+import sqlite3
 
 sm = ScreenManager()
 kivy.require('1.9.0')
@@ -45,10 +46,33 @@ class GuessScreen(Screen):
 
     def change_screen_menu(self, obj):
         self.manager.current = 'menu'
-        self.ids.guess_text.text = 'Guess the number?'
+        Clock.schedule_once(self.reset_text, 2)
     pass
+    def reset_text(self, obj):
+        self.ids.guess_text.text = 'Guess the number?'
 
-class SettingsScreen(Screen):
+class DBScreen(Screen):
+    def save_number(self):
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+        name =  self.ids.save_name.text,
+        number = self.ids.save_number.text,
+        name = str(name)
+        number = str(number)
+
+        print(number)
+        print(name)
+
+        c.execute("INSERT INTO database VALUES (?,?)", (name, number))
+
+        c.execute("SELECT * FROM database WHERE name=:name", {'name': name})
+
+        print(c.fetchone())
+
+        conn.commit()
+        conn.close()
+
     pass
 
 class Gui(App):
@@ -56,8 +80,20 @@ class Gui(App):
         sm = ScreenManager(transition=FadeTransition())
         sm.add_widget(MenuScreen(name='menu'))
         sm.add_widget(GuessScreen(name='guess'))
-        sm.add_widget(SettingsScreen(name='settings'))
+        sm.add_widget(DBScreen(name='database'))
         sm.current = 'menu'
+
+        conn = sqlite3.connect('database.db')
+        c = conn.cursor()
+
+        c.execute("""CREATE TABLE if not exists database(
+                    name text,
+                    number text
+                    )""")
+
+        conn.commit()
+        conn.close()
+
         return sm
 
 if __name__ == '__main__' :

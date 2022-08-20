@@ -1,17 +1,10 @@
 <MenuScreen>:
-
-    random_label: random_label
-
     BoxLayout:
         orientation: "vertical"
         Label:
-            text: "gui"
+            text: "RTN"
             font_size: 64
             color: 0.5, 0.5, 0.5
-        Label:
-            id: random_label
-            text: "-"
-            font_size: 64
         TextInput:
             id: input
             hint_text:'Enter text'
@@ -26,7 +19,7 @@
             on_press: root.manager.current = 'guess'
         Button:
             text: 'Goto settings'
-            on_press: root.manager.current = 'settings'
+            on_press: root.manager.current = 'database'
 
 <GuessScreen>:
     GridLayout:
@@ -92,10 +85,36 @@
             pos: 118, 0
             text: '0'
             on_press: root.guess(0)
-<SettingsScreen>:
-    BoxLayout:
+<DBScreen>:
+    GridLayout:
+        cols: 1
+        rows: 10
+        TextInput:
+            id: save_name
+            hint_text:'Name'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.705}
+            size_hint: 0.95, 0.5
+            multiline: False
+        TextInput:
+            id: save_number
+            hint_text:'Number'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.705}
+            size_hint: 0.95, 0.5
+            multiline: False
+            input_filter: 'int'
         Button:
-            text: 'My settings button'
+            text: 'Save'
+            on_press: root.save_number()
+        Label:
+            id: saved_name_1
+            text: "a"
+            font_size: 64
+            color: 0.5, 0.5, 0.5
+        Label:
+            id: saved_numer_1
+            text: "1"
+            font_size: 64
+            color: 0.5, 0.5, 0.5
         Button:
             text: 'Back to menu'
             on_press: root.manager.current = 'menu'
