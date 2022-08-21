@@ -1,5 +1,6 @@
 <MenuScreen>:
     BoxLayout:
+        padding: 20
         orientation: "vertical"
         Label:
             text: "RTN"
@@ -14,11 +15,13 @@
             multiline: False
             input_filter: 'int'
         Button:
+            id: submit
             text: 'Submit'
             on_press: root.submit()
             on_press: root.manager.current = 'guess'
+            disabled: True
         Button:
-            text: 'Goto settings'
+            text: 'Load previously numbers'
             on_press: root.manager.current = 'database'
 
 <GuessScreen>:
@@ -36,57 +39,68 @@
 
         padding: 20
         Button:
+            id: one
             size_hint: 0.33, 0.156
             pos: 0, 354
             text: '1'
             on_press: root.guess(1)
         Button:
+            id: two
             size_hint: 0.33, 0.156
             pos: 118, 354
             text: '2'
             on_press: root.guess(2)
         Button:
+            id: three
             size_hint: 0.33, 0.156
             pos: 236, 354
             text: '3'
             on_press: root.guess(3)
         Button:
+            id: four
             size_hint: 0.33, 0.156
             pos: 0, 236
             text: '4'
             on_press: root.guess(4)
         Button:
+            id: five
             size_hint: 0.33, 0.156
             pos: 118, 236
             text: '5'
             on_press: root.guess(5)
         Button:
+            id: six
             size_hint: 0.33, 0.156
             pos: 236, 236
             text: '6'
             on_press: root.guess(6)
         Button:
+            id: seven
             size_hint: 0.33, 0.156
             pos: 0, 118
             text: '7'
             on_press: root.guess(7)
         Button:
+            id: eight
             size_hint: 0.33, 0.156
             pos: 118, 118
             text: '8'
             on_press: root.guess(8)
         Button:
+            id: nine
             size_hint: 0.33, 0.156
             pos: 236, 118
             text: '9'
             on_press: root.guess(9)
         Button:
+            id: zero
             size_hint: 0.33, 0.156
             pos: 118, 0
             text: '0'
             on_press: root.guess(0)
 <DBScreen>:
     GridLayout:
+        padding: 20
         cols: 1
         rows: 10
         TextInput:
@@ -95,6 +109,7 @@
             pos_hint: {'center_x': 0.5, 'center_y': 0.705}
             size_hint: 0.95, 0.5
             multiline: False
+            on_text: root.save_process()
         TextInput:
             id: save_number
             hint_text:'Number'
@@ -102,19 +117,24 @@
             size_hint: 0.95, 0.5
             multiline: False
             input_filter: 'int'
+            on_text: root.save_process()
         Button:
+            id: save_button
             text: 'Save'
+            disabled: True
             on_press: root.save_number()
-        Label:
-            id: saved_name_1
-            text: "a"
-            font_size: 64
-            color: 0.5, 0.5, 0.5
-        Label:
-            id: saved_numer_1
-            text: "1"
-            font_size: 64
-            color: 0.5, 0.5, 0.5
+        TextInput:
+            id: load_name
+            hint_text:'Load Number'
+            pos_hint: {'center_x': 0.5, 'center_y': 0.705}
+            size_hint: 0.95, 0.5
+            multiline: False
+            on_text: root.load_process()
+        Button:
+            id: load_button
+            text: 'Load'
+            on_press: root.load_number()
+            disabled: True
         Button:
             text: 'Back to menu'
             on_press: root.manager.current = 'menu'
