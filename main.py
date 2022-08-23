@@ -8,13 +8,21 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 import sqlite3
+from kivymd.app import MDApp
+from kivy.metrics import dp, sp
 
 sm = ScreenManager()
 kivy.require('1.9.0')
-Window.size = (360, 760)
 class root(BoxLayout):
     def __init__(self):
         super(root, self).__init__()
+
+class CustomGrid(FloatLayout):
+    pass
+
+class CustomGrid(FloatLayout):
+    def add_child_to_specific(self, row, col, widget):
+        self.ids[row].ids[col].add_widget(widget)
 
 class MenuScreen(Screen):
     number_list = []
@@ -167,6 +175,8 @@ class DBScreen(Screen):
 
 class Gui(App):
     def build(self):
+
+
         sm = ScreenManager(transition=FadeTransition())
         sm.add_widget(MenuScreen(name='menu'))
         sm.add_widget(GuessScreen(name='guess'))
