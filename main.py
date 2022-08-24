@@ -10,6 +10,8 @@ from kivy.clock import Clock
 import sqlite3
 from kivymd.app import MDApp
 from kivy.metrics import dp, sp
+import os
+app_path = os.path.dirname(os.path.abspath(__file__))
 
 sm = ScreenManager()
 kivy.require('1.9.0')
@@ -19,10 +21,6 @@ class root(BoxLayout):
 
 class CustomGrid(FloatLayout):
     pass
-
-class CustomGrid(FloatLayout):
-    def add_child_to_specific(self, row, col, widget):
-        self.ids[row].ids[col].add_widget(widget)
 
 class MenuScreen(Screen):
     number_list = []
@@ -95,7 +93,7 @@ class GuessScreen(Screen):
 
 class DBScreen(Screen):
     def save_number(self):
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(os.path.join(app_path, 'database.db'))
         c = conn.cursor()
         name = self.ids.save_name.text
         number = self.ids.save_number.text
@@ -130,7 +128,7 @@ class DBScreen(Screen):
     def load_number(self):
         global number_list
         global initial_length
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(os.path.join(app_path, 'database.db'))
         c = conn.cursor()
 
         name = self.ids.load_name.text
@@ -155,14 +153,12 @@ class DBScreen(Screen):
             initial_length = len(number_list)
             self.manager.current = 'guess'
             self.ids.load_name.text == ""
-            print("hjej")
         except:
             self.ids.load_name.text = "Not a saved record"
 
 
     def load_process(self):
         self.load_text = self.ids.load_name.text
-        print(self.load_text)
         if self.load_text == "":
             self.disable_load()
         else:
@@ -183,7 +179,7 @@ class Gui(App):
         sm.add_widget(DBScreen(name='database'))
         sm.current = 'menu'
 
-        conn = sqlite3.connect('database.db')
+        conn = sqlite3.connect(os.path.join(app_path, 'database.db'))
         c = conn.cursor()
 
         c.execute("""CREATE TABLE if not exists database(
