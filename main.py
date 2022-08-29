@@ -8,9 +8,8 @@ from kivy.core.window import Window
 from kivy.uix.floatlayout import FloatLayout
 from kivy.clock import Clock
 import sqlite3
-from kivymd.app import MDApp
-from kivy.metrics import dp, sp
 import os
+
 app_path = os.path.dirname(os.path.abspath(__file__))
 
 sm = ScreenManager()
@@ -18,9 +17,6 @@ kivy.require('1.9.0')
 class root(BoxLayout):
     def __init__(self):
         super(root, self).__init__()
-
-class CustomGrid(FloatLayout):
-    pass
 
 class MenuScreen(Screen):
     number_list = []
@@ -31,7 +27,7 @@ class MenuScreen(Screen):
         else:
             self.enable_submit()
     pass
-
+    
     def submit(self):
         global number_list
         global initial_length
@@ -68,6 +64,7 @@ class GuessScreen(Screen):
     pass
     def reset_text(self, obj):
         self.ids.guess_text.text = 'Guess the number?'
+
     def disable_buttons(self):
         self.ids.one.disabled = True
         self.ids.two.disabled = True
